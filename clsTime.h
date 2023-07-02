@@ -4,7 +4,6 @@
 #include <iostream>
 #include <iomanip>
 #include <ctime>
-#include <chrono>
 
 using namespace std;
 
@@ -198,10 +197,9 @@ public:
 		return clsTime(Time->tm_hour, Time->tm_min, Time->tm_sec);
 	}
 
-	static int TimeZone()
+	/*static void TimeZone()
 	{
-	
-	}
+	}*/
 
 	void Print()
 	{
