@@ -10,15 +10,11 @@ using namespace std;
 
 int main()
 {
-    cout << "Local Time:";
-
-    // get and print local time
-    clsTime::getLocalTime().Print();
+    cout << "Local Time: ";
+    clsTime::getLocalTime().Print(); // get and print local time
 
     cout << "UTC Time: ";
-    
-    // get and print UTC time
-    clsTime::getUTCtime().Print();
+    clsTime::getUTCtime().Print(); // get and print UTC time
 
     return 0;
 }
