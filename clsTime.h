@@ -201,6 +201,180 @@ public:
 	{
 	}*/
 
+	bool static IsAM(short Hour)
+	{
+		return (Hour >= 0 && Hour <= 11);
+	}
+
+	bool IsPM(short Hour)
+	{
+		return (Hour >= 12 && Hour <= 23);
+	}
+
+	static bool IsHuorBeforeHour2(short Hour1, short Hour2)
+	{
+		return Hour1 < Hour2;
+	}
+
+	bool IsHuorBeforeHour2(short Hour)
+	{
+		return IsHuorBeforeHour2(_Hour, Hour);
+	}
+
+	static bool IsMinuteBeforeMinute2(short Minute1, short Minute2)
+	{
+		return Minute1 < Minute2;
+	}
+
+	bool IsMinuteBeforeMinute2(short Minute)
+	{
+		return IsMinuteBeforeMinute2(_Minute, Minute);
+	}
+
+	static bool IsSecondBeforeSecond2(short Second1, short Second2)
+	{
+		return Second1 < Second2;
+	}
+
+	bool IsSecondBeforeSecond2(short Second)
+	{
+		return IsSecondBeforeSecond2(_Second, Second);
+	}
+
+	static bool IsHuorAfterHour2(short Hour1, short Hour2)
+	{
+		return Hour1 > Hour2;
+	}
+
+	bool IsHuorAfterHour2(short Hour)
+	{
+		return IsHuorAfterHour2(_Hour, Hour);
+	}
+
+	static bool IsMinuteAfterMinute2(short Minute1, short Minute2)
+	{
+		return Minute1 > Minute2;
+	}
+
+	bool IsMinuteAfterMinute2(short Minute)
+	{
+		return IsMinuteAfterMinute2(_Minute, Minute);
+	}
+
+	static bool IsSecondAfterSecond2(short Second1, short Second2)
+	{
+		return Second1 > Second2;
+	}
+
+	bool IsSecondAfterSecond2(short Second)
+	{
+		return IsSecondAfterSecond2(_Second, Second);
+	}
+
+	static bool IsHuorEqualHour2(short Hour1, short Hour2)
+	{
+		return Hour1 == Hour2;
+	}
+
+	bool IsHuorEqualHour2(short Hour)
+	{
+		return IsHuorEqualHour2(_Hour, Hour);
+	}
+
+	static bool IsMinuteEqualMinute2(short Minute1, short Minute2)
+	{
+		return Minute1 == Minute2;
+	}
+
+	bool IsMinuteEqualMinute2(short Minute)
+	{
+		return IsMinuteEqualMinute2(_Minute, Minute);
+	}
+
+	static bool IsSecondEqualSecond2(short Second1, short Second2)
+	{
+		return Second1 == Second2;
+	}
+
+	bool IsSecondEqualSecond2(short Second)
+	{
+		return IsSecondEqualSecond2(_Second, Second);
+	}
+
+	static bool IsTimeBeforeTime2(clsTime Time1, clsTime Time2)
+	{
+		if (Time1.IsHuorBeforeHour2(Time2.Hour))
+			return true;
+
+		else if (Time1.IsHuorEqualHour2(Time2.Hour))
+		{
+			if (Time1.IsMinuteBeforeMinute2(Time2.Minute))
+				return true;
+
+			if (Time1.IsMinuteEqualMinute2(Time2.Minute))
+			{
+				if (Time1.IsSecondBeforeSecond2(Time2.Second))
+					return true;
+
+				else
+					return false;
+			}
+
+			else
+				return false;
+
+		}
+
+		return false;
+	}
+
+	bool IsTimeBeforeTime2(clsTime Time2)
+	{
+		return IsTimeBeforeTime2(*this, Time2);
+	}
+
+	static bool IsTimeAfterTime2(clsTime Time1, clsTime Time2)
+	{
+		if (Time1.IsHuorAfterHour2(Time2.Hour))
+			return true;
+
+		else if (Time1.IsHuorEqualHour2(Time2.Hour))
+		{
+			if (Time1.IsMinuteAfterMinute2(Time2.Minute))
+				return true;
+
+			if (Time1.IsMinuteEqualMinute2(Time2.Minute))
+			{
+				if (Time1.IsSecondAfterSecond2(Time2.Second))
+					return true;
+
+				else
+					return false;
+			}
+
+			else
+				return false;
+
+		}
+
+		return false;
+	}
+
+	bool IsTimeAfterTime2(clsTime Time2)
+	{
+		return IsTimeAfterTime2(*this, Time2);
+	}
+
+	static bool IsTimeEqualTime2(clsTime Time1, clsTime Time2)
+	{
+		return (Time1.IsHuorEqualHour2(Time2.Hour) && Time1.IsMinuteEqualMinute2(Time2.Minute) && Time1.IsSecondEqualSecond2(Time2._Second));
+	}
+
+	bool IsTimeEqualTime2(clsTime Time2)
+	{
+		return IsTimeEqualTime2(*this, Time2);
+	}
+
 	void Print()
 	{
 		Print(*this);
