@@ -11,7 +11,7 @@ using namespace std;
 
 int main()
 {
-    clsTime Time1(1, 5, 1), Time2(1, 5, 1);
+    clsTime Time1(5, 4, 1), Time2;
 
     cout << "Time 1: ";
     Time1.Print();
@@ -19,12 +19,27 @@ int main()
     cout << "Time 2: ";
     Time2.Print();
 
-    cout << "Is Time1 Before Time2: " << Time1.IsTimeBeforeTime2(Time2) << endl;
-    cout << "Is Time1 After Time2: " << Time1.IsTimeAfterTime2(Time2) << endl;
-    cout << "Is Time1 Equal Time2: " << Time1.IsTimeEqualTime2(Time2) << endl;
+    cout << "\nIs Time1 Before Time2: ";
+    if (Time1.IsTimeBeforeTime2(Time2))
+        cout << "true.\n";
+    else
+        cout << "false.\n";
+
+    cout << "Is Time1 After Time2: ";
+    if (Time1.IsTimeAfterTime2(Time2))
+        cout << "true.\n";
+    else
+        cout << "false.\n";
+
+    cout << "Is Time1 Equal Time2: ";
+    if (Time1.IsTimeEqualTime2(Time2))
+        cout << "true.\n";
+    else
+        cout << "false.\n";
 
     cout << "\nLOCAL TIME: ";
     clsTime::getLocalTime().Print();
+
     cout << "UTC TIME: ";
     clsTime::getUTCTime().Print();
 
