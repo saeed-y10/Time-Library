@@ -189,7 +189,7 @@ public:
 		return getSystemTime();
 	}
 
-	static clsTime getUTCtime()
+	static clsTime getUTCTime()
 	{
 		time_t now = time(0);
 		tm* Time = gmtime(&now);
