@@ -46,7 +46,22 @@ public:
 		_Second = Second;
 	}
 
-	static short HourTo12HoursSystem(short Hour)
+	static bool IsValid(short Hour, short Minute, short Second)
+	{
+		return (Hour >= 0 && Hour <= 23) && (Minute >= 0 && Minute <= 59) && (Second >= 0 && Second <= 59);
+	}
+
+	static bool IsValid(clsTime Time)
+	{
+		return IsValid(Time.Hour, Time.Minute, Time.Second);
+	}
+
+	bool IsValid()
+	{
+		return IsValid(_Hour, _Minute, _Second);
+	}
+
+	static short HourIn12HoursSystem(short Hour)
 	{
 		if (Hour == 0)
 			return 12;
@@ -54,10 +69,20 @@ public:
 		else if (Hour >= 1 && Hour <= 12)
 			return Hour;
 
-		else if (Hour >= 13 && Hour <= 23)
+		else
 			return Hour - 12;
 
-		return HourTo12HoursSystem(getSystemHour());
+		return HourIn12HoursSystem(getSystemHour());
+	}
+
+	static short HourIn12HoursSystem(clsTime Time)
+	{
+		return HourIn12HoursSystem(Time.Hour);
+	}
+
+	short HourIn12HoursSystem()
+	{
+		return HourIn12HoursSystem(_Hour);
 	}
 
 	static short getSystemHour()
@@ -201,14 +226,34 @@ public:
 	{
 	}*/
 
-	bool static IsAM(short Hour)
+	static bool IsAM(short Hour)
 	{
 		return (Hour >= 0 && Hour <= 11);
 	}
 
-	bool IsPM(short Hour)
+	static bool IsAM(clsTime Time)
+	{
+		return IsAM(Time.Hour);
+	}
+
+	bool IsAM()
+	{
+		return IsAM(_Hour);
+	}
+
+	static bool IsPM(short Hour)
 	{
 		return (Hour >= 12 && Hour <= 23);
+	}
+
+	static bool IsPM(clsTime Time)
+	{
+		return IsPM(Time.Hour);
+	}
+
+	bool IsPM()
+	{
+		return IsPM(_Hour);
 	}
 
 	static bool IsHuorBeforeHour2(short Hour1, short Hour2)
