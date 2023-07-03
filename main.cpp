@@ -23,5 +23,10 @@ int main()
     cout << "Is Time1 After Time2: " << Time1.IsTimeAfterTime2(Time2) << endl;
     cout << "Is Time1 Equal Time2: " << Time1.IsTimeEqualTime2(Time2) << endl;
 
+    cout << "\nLOCAL TIME: ";
+    clsTime::getLocalTime().Print();
+    cout << "UTC TIME: ";
+    clsTime::getUTCTime().Print();
+
     return 0;
 }
