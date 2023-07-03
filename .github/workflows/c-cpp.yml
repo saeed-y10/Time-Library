@@ -3,21 +3,35 @@ name: C/C++ CI
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - "main.cpp"
+      - "clsTime.h"
+      - ".github/workflows/ci.yml"
+      
   pull_request:
     branches: [ "main" ]
 
 jobs:
-  build:
+  
+  core:
+  
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        shared: [true, false]
 
-    runs-on: windows-10
+    runs-on: ${{ matrix.os }}
 
     steps:
     - uses: actions/checkout@v3
-    - name: configure
-      run: ./configure
-    - name: make
-      run: make
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck
+    - name: config shared=${{ matrix.shared }}
+      run: >-
+        cmake
+        -Bbuild
+        -DBUILD_SHARED_LIBS=${{ matrix.shared }}        
+    
+    - name: build
+      run: cmake --build build --parallel
+      
+    - name: test
+      run: ctest --test-dir build -V
