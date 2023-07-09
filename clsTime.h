@@ -644,6 +644,24 @@ public:
 		return IsTimeEqualTime2(*this, Time2);
 	}
 
+	enum enCompareTime
+	{
+		Before = 0,
+		Equal = 1,
+		After = 2
+	};
+
+	static enCompareTime CompareTime(clsTime Time1, clsTime Time2)
+	{
+		if (Time1.IsTimeBeforeTime2(Time2))
+			return enCompareTime::Before;
+
+		if (Time1.IsTimeAfterTime2(Time2))
+			return enCompareTime::After;
+
+		return enCompareTime::Equal;
+	}
+
 	void Print()
 	{
 		Print(*this);
