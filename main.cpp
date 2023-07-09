@@ -6,36 +6,16 @@
 #include <iostream>
 #include "clsTime.h"
 #include <ctime>
+#include "clsUtil.h"
 
 using namespace std;
 
 int main()
 {
-    clsTime Time1(5, 4, 1), Time2;
+    // it's important to use this method fist thing in the main function before any this
+    // to change time seed in every run.
 
-    cout << "Time 1: ";
-    Time1.Print();
-    
-    cout << "Time 2: ";
-    Time2.Print();
-
-    cout << "\nIs Time1 Before Time2: ";
-    if (Time1.IsTimeBeforeTime2(Time2))
-        cout << "true.\n";
-    else
-        cout << "false.\n";
-
-    cout << "Is Time1 After Time2: ";
-    if (Time1.IsTimeAfterTime2(Time2))
-        cout << "true.\n";
-    else
-        cout << "false.\n";
-
-    cout << "Is Time1 Equal Time2: ";
-    if (Time1.IsTimeEqualTime2(Time2))
-        cout << "true.\n";
-    else
-        cout << "false.\n";
+    clsUtil::Srand();
 
     cout << "\nLOCAL TIME: ";
     clsTime::getLocalTime().Print();
