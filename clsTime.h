@@ -17,10 +17,17 @@ private:
 
 public:
 
-	clsTime()
+	clsTime(bool LocalTime = true)
 	{
 		time_t t = time(0);
-		tm* Time = localtime(&t);
+		tm* Time;
+
+		if (LocalTime)
+			Time = localtime(&t);
+
+		else
+			Time = gmtime(&t);
+
 
 		_Hour = Time->tm_hour;
 		_Minute = Time->tm_min;
@@ -333,10 +340,16 @@ public:
 		return Time->tm_sec;
 	}
 
-	static clsTime getSystemTime()
+	static clsTime getSystemTime(bool LocalTime = true)
 	{
 		time_t t = time(0);
-		tm* Time = localtime(&t);
+		tm* Time;
+
+		if (LocalTime)
+			Time = localtime(&t);
+
+		else
+			Time = gmtime(&t);
 
 		return clsTime(Time->tm_hour, Time->tm_min, Time->tm_sec);
 	}
