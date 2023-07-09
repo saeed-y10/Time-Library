@@ -61,6 +61,230 @@ public:
 		return IsValid(_Hour, _Minute, _Second);
 	}
 
+	static bool IsFirstHour(short Hour)
+	{
+		return Hour == 0;
+	}
+
+	static bool IsFirstHour(clsTime Time)
+	{
+		return IsFirstHour(Time.Hour);
+	}
+
+	bool IsFirstHour()
+	{
+		return IsFirstHour(_Hour);
+	}
+
+	static bool IsLastHour(short Hour)
+	{
+		return Hour == 23;
+	}
+
+	static bool IsLastHour(clsTime Time)
+	{
+		return IsLastHour(Time.Hour);
+	}
+
+	bool IsLastHour()
+	{
+		return IsLastHour(_Hour);
+	}
+
+	static bool IsFirstMinute(short Minute)
+	{
+		return Minute == 0;
+	}
+
+	static bool IsFirstMinute(clsTime Time)
+	{
+		return IsFirstMinute(Time.Minute);
+	}
+
+	bool IsFirstMinute()
+	{
+		return IsFirstMinute(_Minute);
+	}
+
+	static bool IsLastMinute(short Minute)
+	{
+		return Minute == 59;
+	}
+
+	static bool IsLastMinute(clsTime Time)
+	{
+		return IsLastMinute(Time.Minute);
+	}
+
+	bool IsLastMinute()
+	{
+		return IsLastMinute(_Minute);
+	}
+
+	static bool IsFirstSecond(short Second)
+	{
+		return Second == 0;
+	}
+
+	static bool IsFirstSecond(clsTime Time)
+	{
+		return IsFirstSecond(Time.Second);
+	}
+
+	bool IsFirstSecond()
+	{
+		return IsFirstSecond(_Second);
+	}
+
+	static bool IsLastSecond(short Second)
+	{
+		return Second == 59;
+	}
+
+	static bool IsLastSecond(clsTime Time)
+	{
+		return IsLastSecond(Time.Second);
+	}
+
+	bool IsLastSecond()
+	{
+		return IsLastMinute(_Second);
+	}
+
+	static clsTime AddOneSecond(clsTime Time)
+	{
+		if (IsLastSecond(Time))
+		{
+			if (IsLastMinute(Time))
+			{
+				if (IsLastHour(Time))
+				{
+					Time.Hour = 0;
+					Time.Minute = 0;
+					Time.Second = 0;
+				}
+
+				else
+				{
+					Time.Hour++;
+					Time.Minute = 0;
+					Time.Second = 0;
+				}
+			}
+
+			else
+			{
+				Time.Minute++;
+				Time.Second = 0;
+			}
+		}
+
+		else
+		{
+			Time.Second++;
+		}
+
+		return Time;
+	}
+
+	void AddOneSecond()
+	{
+		*this = AddOneSecond(*this);
+	}
+
+	static clsTime AddSeconds(clsTime Time, short Seconds)
+	{
+		for (short i = 1; i <= Seconds; i++)
+			Time = AddOneSecond(Time);
+
+		return Time;
+	}
+
+	void AddSeconds(short Seconds)
+	{
+		*this = AddSeconds(*this, Seconds);
+	}
+
+	static clsTime AddOneMinute(clsTime Time)
+	{
+		if (Time.IsLastMinute())
+		{
+
+			if (Time.IsLastHour())
+			{
+				Time.Minute = 0;
+				Time.Hour = 0;
+			}
+
+			else
+			{
+				Time.Minute = 0;
+				Time.Hour++;
+			}
+
+		}
+
+		else
+		{
+			Time.Minute++;
+		}
+
+		return Time;
+	}
+
+	void AddOneMinute()
+	{
+		*this = AddOneMinute(*this);
+	}
+
+	clsTime AddMinutes(clsTime Time, short Minutes)
+	{
+		for (short i = 1; i <= Minutes; i++)
+		{
+			Time = AddOneMinute(Time);
+		}
+
+		return Time;
+	}
+
+	void AddMinutes(short Minutes)
+	{
+		*this = AddMinutes(*this, Minutes);
+	}
+
+	static clsTime AddOneHour(clsTime Time)
+	{
+		if (Time.IsLastHour())
+		{
+			Time.Hour = 0;
+		}
+
+		else
+		{
+			Time.Hour++;
+		}
+
+		return Time;
+	}
+
+	void AddOneHour()
+	{
+		*this = AddOneHour(*this);
+	}
+
+	static clsTime AddHours(clsTime Time, short Hours)
+	{
+		for (short i = 1; i <= Hours; i++)
+			Time = AddOneHour(Time);
+
+		return Time;
+	}
+
+	void AddHours(short Hours)
+	{
+		*this = AddHours(*this, Hours);
+	}
+
 	static short HourIn12HoursSystem(short Hour)
 	{
 		if (Hour == 0)
