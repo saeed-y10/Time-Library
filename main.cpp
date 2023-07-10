@@ -1,5 +1,5 @@
 // Time Library.cpp : This file contains the 'main' function. Program execution begins and ends there.
-// PROGRAMMER : SAEED LAHMDI
+// Programmed : Saeed Lahmdi
 
 #pragma warning(disable : 4996)
 
@@ -14,7 +14,6 @@ int main()
 {
     // it's important to use this method fist thing in the main function before any this
     // to change time seed in every run.
-
     clsUtil::Srand();
 
     cout << "\nLOCAL TIME: ";
