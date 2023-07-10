@@ -306,6 +306,143 @@ public:
 		return HourIn12HoursSystem(getSystemHour());
 	}
 
+	static clsTime DecreaseOneSecond(clsTime Time)
+	{
+		if (Time.IsFirstSecond())
+		{
+			if (Time.IsFirstMinute())
+			{
+				if (Time.IsFirstHour())
+				{
+
+					Time.Hour = 23;
+					Time.Minute = 59;
+					Time.Second = 59;
+				}
+
+				else
+				{
+					Time.Hour--;
+					Time.Minute = 59;
+					Time.Second = 59;
+				}
+			}
+
+			else
+			{
+				Time.Minute--;
+				Time.Second = 59;
+			}
+		}
+
+		else
+		{
+			Time.Second--;
+		}
+
+		return Time;
+	}
+
+	void DecreaseOneSecond()
+	{
+		*this = DecreaseOneSecond(*this);
+	}
+
+	static clsTime DecreaseSeconds(clsTime Time, short Seconds)
+	{
+		for (short i = 1; i <= Seconds; i++)
+		{
+			Time = DecreaseOneSecond(Time);
+		}
+
+		return Time;
+	}
+
+	void DecreaseSeconds(short Seconds)
+	{
+		*this = DecreaseSeconds(*this, Seconds);
+	}
+
+	static clsTime DecreaseOneMinute(clsTime Time)
+	{
+		if (Time.IsFirstMinute())
+		{
+			if (Time.IsFirstHour())
+			{
+				Time.Hour = 23;
+				Time.Minute = 59;
+			}
+
+			else
+			{
+				Time.Hour--;
+				Time.Minute = 59;
+			}
+		}
+
+		else
+		{
+			Time.Minute--;
+		}
+
+		return Time;
+	}
+
+	void DecreaseOneMinute()
+	{
+		*this = DecreaseOneMinute(*this);
+	}
+
+	static clsTime DecreaseMinutes(clsTime Time, short Minutes)
+	{
+		for (short i = 1; i <= Minutes; i++)
+		{
+			Time = DecreaseOneMinute(Time);
+		}
+
+		return Time;
+	}
+
+	void DecreaseMinutes(short Minutes)
+	{
+		*this = DecreaseMinutes(*this, Minutes);
+	}
+
+	static clsTime DecreaseOneHour(clsTime Time)
+	{
+		if (Time.IsFirstHour())
+		{
+			Time.Hour = 23;
+		}
+
+		else
+		{
+			Time.Hour--;
+		}
+
+		return Time;
+	}
+
+	void DecreaseOneHour()
+	{
+		*this = DecreaseOneHour(*this);
+	}
+
+	static clsTime DecreaseHours(clsTime Time, short Hours)
+	{
+		for (short i = 1; i <= Hours; i++)
+		{
+			Time = DecreaseOneHour(Time);
+		}
+
+		return Time;
+	}
+
+	void DecreaseHours(short Hours)
+	{
+		*this = DecreaseHours(*this, Hours);
+	}
+
 	static short HourIn12HoursSystem(clsTime Time)
 	{
 		return HourIn12HoursSystem(Time.Hour);
