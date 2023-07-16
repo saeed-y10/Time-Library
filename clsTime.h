@@ -121,20 +121,14 @@ public:
 		return ToString(*this);
 	}
 
-	static clsTime ToDate(string strTime, string Seperator = ":")
+	static clsTime ToTime(string strTime, string Seperator)
 	{
-		clsTime Time(0, 0, 0);
-
 		vector<string> vTime = clsString::Split(strTime, Seperator);
 
 		if (vTime.size() < 3)
-			return Time;
+			return clsTime();
 
-		Time.Hour = stoi(vTime[0]);
-		Time.Minute = stoi(vTime[1]);
-		Time.Second = stoi(vTime[2]);
-
-		return Time;
+		return clsTime(stoi(vTime[0]), stoi(vTime[1]), stoi(vTime[2]));
 	}
 
 	static string Format(clsTime Time, string TimeFormat)
@@ -210,8 +204,6 @@ public:
 	{
 		return IsValidHour(_Hour);
 	}
-
-	//static Is
 
 	static bool IsFirstHour(short Hour)
 	{
@@ -668,13 +660,6 @@ public:
 		return DurationInSeconds(Time.Hour, Time.Minute, Time.Second);
 	}
 
-	static void Print(clsTime Time)
-	{
-		cout << setw(2) << setfill('0') << Time.getHour() << ":";
-		cout << setw(2) << setfill('0') << Time.getMinute() << ":";
-		cout << setw(2) << setfill('0') << Time.getSecond() << endl;
-	}
-
 	static short DaylightSavingsHours()
 	{
 		time_t t = time(0); // to get time now 
@@ -1040,6 +1025,13 @@ public:
 			return enCompareTime::After;
 
 		return enCompareTime::Equal;
+	}
+
+	static void Print(clsTime Time)
+	{
+		cout << setw(2) << setfill('0') << Time.getHour() << ":";
+		cout << setw(2) << setfill('0') << Time.getMinute() << ":";
+		cout << setw(2) << setfill('0') << Time.getSecond() << endl;
 	}
 
 	void Print()
