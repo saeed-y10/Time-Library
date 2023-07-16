@@ -12,14 +12,16 @@ using namespace std;
 
 int main()
 {
-    // it's important to use this method fist thing in the main function before any this
-    // to change time seed in every run.
-    clsUtil::Srand();
+    
+    clsTime Time("12:30:59", ":");
 
-    cout << "\nLOCAL TIME: ";
+    cout << "\nOBJECT TIME: ";
+    Time.Print();
+
+    cout << "LOCAL TIME : ";
     clsTime::getLocalTime().Print();
 
-    cout << "UTC TIME: ";
+    cout << "UTC TIME   : ";
     clsTime::getUTCTime().Print();
 
     return 0;
