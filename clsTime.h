@@ -4,6 +4,8 @@
 #include <iostream>
 #include <iomanip>
 #include <ctime>
+#include <vector>
+#include "clsString.h"
 
 using namespace std;
 
@@ -53,6 +55,102 @@ public:
 		_Second = Second;
 	}
 
+	clsTime(string Time, string Seperator)
+	{
+		vector<string> vTime = clsString::Split(Time, Seperator);
+
+		if (vTime.size() < 3)
+			*this = clsTime();
+
+		else
+			*this = clsTime(stoi(vTime[0]), stoi(vTime[1]), stoi(vTime[2]));
+	}
+
+	void setHour(short Hour)
+	{
+		if (Hour < 0 || Hour > 23)
+			_Hour = getSystemHour();
+
+		else
+			_Hour = Hour;
+	}
+
+	short getHour()
+	{
+		return _Hour;
+	}
+	__declspec(property(get = getHour, put = setHour))short Hour;
+
+	void setMinute(short Minute)
+	{
+		if (Minute < 0 || Minute > 59)
+			_Minute = getSystemMinute();
+
+		else
+			_Minute = Minute;
+	}
+
+	short getMinute()
+	{
+		return _Minute;
+	}
+	__declspec(property(get = getMinute, put = setMinute))short Minute;
+
+	void setSecond(short Second)
+	{
+		if (Second < 0 || Second > 59)
+			_Second = getSystemSecond();
+
+		else
+			_Second = Second;
+	}
+
+	short getSecond()
+	{
+		return _Second;
+	}
+	__declspec(property(get = getSecond, put = setSecond))short Second;
+
+	static string ToString(clsTime Time)
+	{
+		return to_string(Time.Hour) + ":" + to_string(Time.Minute) + ":" + to_string(Time.Second);
+	}
+
+	string ToString()
+	{
+		return ToString(*this);
+	}
+
+	static clsTime ToDate(string strTime, string Seperator = ":")
+	{
+		clsTime Time(0, 0, 0);
+
+		vector<string> vTime = clsString::Split(strTime, Seperator);
+
+		if (vTime.size() < 3)
+			return Time;
+
+		Time.Hour = stoi(vTime[0]);
+		Time.Minute = stoi(vTime[1]);
+		Time.Second = stoi(vTime[2]);
+
+		return Time;
+	}
+
+	static string Format(clsTime Time, string TimeFormat)
+	{
+		TimeFormat = clsString::ReplaceWord(TimeFormat, "hh", to_string(Time.Hour));
+		TimeFormat = clsString::ReplaceWord(TimeFormat, "mm", to_string(Time.Minute));
+		TimeFormat = clsString::ReplaceWord(TimeFormat, "ss", to_string(Time.Second));
+
+		return TimeFormat;
+	}
+	
+	string Format(string TimeFormat)
+	{
+		return Format(*this, TimeFormat);
+	}
+
 	static bool IsValid(short Hour, short Minute, short Second)
 	{
 		return (Hour >= 0 && Hour <= 23) && (Minute >= 0 && Minute <= 59) && (Second >= 0 && Second <= 59);
@@ -67,6 +165,53 @@ public:
 	{
 		return IsValid(_Hour, _Minute, _Second);
 	}
+
+	static bool IsValidSecond(short Second)
+	{
+		return Second >= 0 && Second <= 59;
+	}
+
+	static bool IsValidSecond(clsTime Time)
+	{
+		return IsValidSecond(Time.Second);
+	}
+
+	bool IsValidSecond()
+	{
+		return IsValidSecond(_Second);
+	}
+
+	static bool IsValidMinute(short Minute)
+	{
+		return Minute >= 0 && Minute <= 59;
+	}
+
+	static bool IsValidMinute(clsTime Time)
+	{
+		return IsValidMinute(Time.Minute);
+	}
+
+	bool IsValidMinute()
+	{
+		return IsValidMinute(_Minute);
+	}
+
+	static bool IsValidHour(short Hour)
+	{
+		return Hour >= 0 && Hour <= 23;
+	}
+
+	static bool IsValidHour(clsTime Time)
+	{
+		return IsValidHour(Time.Hour);
+	}
+
+	bool IsValidHour()
+	{
+		return IsValidHour(_Hour);
+	}
+
+	//static Is
 
 	static bool IsFirstHour(short Hour)
 	{
@@ -491,51 +636,6 @@ public:
 		return clsTime(Time->tm_hour, Time->tm_min, Time->tm_sec);
 	}
 
-	void setHour(short Hour)
-	{
-		if (Hour < 0 || Hour > 23)
-			_Hour = getSystemHour();
-
-		else
-			_Hour = Hour;
-	}
-
-	short getHour()
-	{
-		return _Hour;
-	}
-	__declspec(property(get = getHour, put = setHour))short Hour;
-
-	void setMinute(short Minute)
-	{
-		if (Minute < 0 || Minute > 59)
-			_Minute = getSystemMinute();
-
-		else
-			_Minute = Minute;
-	}
-
-	short getMinute()
-	{
-		return _Minute;
-	}
-	__declspec(property(get = getMinute, put = setMinute))short Minute;
-
-	void setSecond(short Second)
-	{
-		if (Second < 0 || Second > 59)
-			_Second = getSystemSecond();
-
-		else
-			_Second = Second;
-	}
-
-	short getSecond()
-	{
-		return _Second;
-	}
-	__declspec(property(get = getSecond, put = setSecond))short Second;
-
 	static int DurationInMinutes(short Hours, short Minutes, short Seconds)
 	{
 		int TotalMinutes = 0;
@@ -792,6 +892,136 @@ public:
 	bool IsTimeEqualTime2(clsTime Time2)
 	{
 		return IsTimeEqualTime2(*this, Time2);
+	}
+
+	static int GetDiffrenceInHours(clsTime Time1, clsTime Time2, bool InculdeEndHour = false)
+	{
+		int Hours = 0;
+		short SwapFlagValue = 1;
+
+		if (!IsTimeBeforeTime2(Time1, Time2))
+		{
+			swap(Time1, Time2);
+			SwapFlagValue = -1;
+		}
+
+		while (IsTimeBeforeTime2(Time1, Time2))
+		{
+			Hours++;
+
+			Time1 = AddOneHour(Time1);
+		}
+
+		return (InculdeEndHour ? ++Hours : Hours) * SwapFlagValue;
+	}
+
+	int GetDiffrenceInHours(clsTime Time2, bool InculdeEndHour = false)
+	{
+		return GetDiffrenceInHours(*this, Time2, InculdeEndHour);
+	}
+
+	static int GetDiffrenceInMinutes(clsTime Time1, clsTime Time2, bool InculdeEndMinute = false)
+	{
+		int Minutes = 0;
+		short SwapFlagValue = 1;
+
+		if (!IsTimeBeforeTime2(Time1, Time2))
+		{
+			swap(Time1, Time2);
+			SwapFlagValue = -1;
+		}
+
+		while (IsTimeBeforeTime2(Time1, Time2))
+		{
+			Minutes++;
+
+			Time1 = AddOneMinute(Time1);
+		}
+
+		return (InculdeEndMinute ? ++Minutes : Minutes) * SwapFlagValue;
+	}
+
+	int GetDiffrenceInMinutes(clsTime Time2, bool InculdeEndMinute = false)
+	{
+		return GetDiffrenceInMinutes(*this, Time2, InculdeEndMinute);
+	}
+
+	static int GetDiffrenceBetweenMinutes(clsTime Time1, clsTime Time2, bool InculdeEndMinute = false)
+	{
+		int Minutes = 0;
+		short SwapFlagValue = 1;
+
+		if (!IsMinuteBeforeMinute2(Time1.Minute, Time2.Minute))
+		{
+			swap(Time1, Time2);
+			SwapFlagValue = -1;
+		}
+
+		while (IsMinuteBeforeMinute2(Time1.Minute, Time2.Minute))
+		{
+			Minutes++;
+
+			Time1 = AddOneMinute(Time1);
+		}
+
+		return (InculdeEndMinute ? ++Minutes : Minutes) * SwapFlagValue;
+	}
+
+	int GetDiffrenceBetweenMinutes(clsTime Time2, bool InculdeEndMinute = false)
+	{
+		return GetDiffrenceBetweenMinutes(*this, Time2, InculdeEndMinute);
+	}
+
+	static int GetDiffrenceBetweenHours(clsTime Time1, clsTime Time2, bool InculdeEndHour = false)
+	{
+		int Hours = 0;
+		short SwapFlagValue = 1;
+
+		if (!IsHuorBeforeHour2(Time1.Hour, Time2.Hour))
+		{
+			swap(Time1, Time2);
+			SwapFlagValue = -1;
+		}
+
+		while (IsHuorBeforeHour2(Time1.Hour, Time2.Hour))
+		{
+			Hours++;
+
+			Time1 = AddOneHour(Time1);
+		}
+
+		return (InculdeEndHour ? ++Hours : Hours) * SwapFlagValue;
+	}
+
+	int GetDiffrenceBetweenHours(clsTime Time2, bool InculdeEndHour = false)
+	{
+		return GetDiffrenceBetweenHours(*this, Time2, InculdeEndHour);
+	}
+
+	static int GetDiffrenceBetweenSeconds(clsTime Time1, clsTime Time2, bool InculdeEndSecond = false)
+	{
+		int Seconds = 0;
+		short SwapFlagValue = 1;
+
+		if (!IsSecondBeforeSecond2(Time1.Second, Time2.Second))
+		{
+			swap(Time1, Time2);
+			SwapFlagValue = -1;
+		}
+
+		while (IsSecondBeforeSecond2(Time1.Second, Time2.Second))
+		{
+			Seconds++;
+
+			Time1 = AddOneSecond(Time1);
+		}
+
+		return (InculdeEndSecond ? ++Seconds : Seconds) * SwapFlagValue;
+	}
+
+	int GetDiffrenceBetweenSeconds(clsTime Time2, bool InculdeEndSecond = false)
+	{
+		return GetDiffrenceBetweenSeconds(*this, Time2, InculdeEndSecond);
 	}
 
 	enum enCompareTime
